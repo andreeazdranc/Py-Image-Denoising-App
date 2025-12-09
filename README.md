@@ -1,5 +1,8 @@
 # Py-Image-Denoising-App
 
+![Status](https://img.shields.io/badge/status-in%20development-yellow)
+![Python](https://img.shields.io/badge/python-3.7%2B-blue)
+
 A Python-based application for removing noise from images using various denoising algorithms and techniques.
 
 ## Description
@@ -103,7 +106,7 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 ## License
 
-This project is open source. License details will be added soon.
+License to be determined. Please contact the author for usage permissions.
 
 ## Author
 
