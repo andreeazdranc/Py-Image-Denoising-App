@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicație Restaurare - Procesare Imagini</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">Restaurare Imagini</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Acasă</a></li>
+                <li><a href="importanta.html" class="nav-link">Importanță</a></li>
+                <li><a href="filtre.html" class="nav-link">Filtre</a></li>
+                <li><a href="zgomote.html" class="nav-link">Zgomote</a></li>
+                <li><a href="aplicatie.html" class="nav-link active">Aplicație</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="page-header">
+            <h1>Aplicație de Restaurare Automată</h1>
+            <p>Încarcă o imagine și testează detecția automată a zgomotului</p>
+        </div>
+
+        <!-- Secțiune upload și control -->
+        <div class="card">
+            <h2>Pas 1: Încarcă Imagine și Selectează Zgomot</h2>
+            
+            <div class="form-group">
+                <label class="form-label" for="imageInput">Selectează imaginea:</label>
+                <input type="file" id="imageInput" class="form-control" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="noiseType">Selectează tipul de zgomot:</label>
+                <select id="noiseType" class="form-select">
+                    <option value="">-- Se încarcă opțiuni --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <button id="processBtn" class="btn btn-primary" disabled>
+                    🚀 Procesează Imagine
+                </button>
+            </div>
+
+            <div id="uploadStatus" class="alert alert-info hidden">
+                Încarcă o imagine pentru a începe procesarea.
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loadingSection" class="loading">
+            <div class="spinner"></div>
+            <p style="margin-top: 1rem; color: white; font-weight: 600;">
+                Procesare în curs... Te rugăm să aștepți.
+            </p>
+        </div>
+
+        <!-- Rezultate -->
+        <div id="resultsSection" class="hidden">
+            <!-- Info procesare -->
+            <div class="card">
+                <h2>Rezultate Procesare</h2>
+                <div class="alert alert-success">
+                    <p style="margin: 0;">
+                        <b>Zgomot aplicat:</b> <span id="noiseApplied">-</span><br>
+                        <b>Zgomot detectat:</b> <span id="noiseDetected">-</span><br>
+                        <b>Filtru utilizat:</b> <span id="filterUsed">-</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Imagini comparative -->
+            <div class="card">
+                <h2>Imagini Comparative</h2>
+                <div class="results-grid">
+                    <div class="result-item">
+                        <h3>Imagine Originală</h3>
+                        <img id="imgOriginal" src="" alt="Original">
+                    </div>
+                    <div class="result-item">
+                        <h3>Imagine cu Zgomot</h3>
+                        <img id="imgNoisy" src="" alt="Cu zgomot">
+                    </div>
+                    <div class="result-item">
+                        <h3>Imagine Restaurată</h3>
+                        <img id="imgRestored" src="" alt="Restaurată">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metrici -->
+            <div class="card">
+                <h2>Metrici de Calitate</h2>
+                <div class="metrics-container">
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-label">PSNR</div>
+                            <div class="metric-value" id="metricPSNR">-</div>
+                            <div style="font-size: 0.8rem; color: var(--text-light); margin-top: 0.5rem;">
+                                (dB, mai mare = mai bun)
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">SSIM</div>
+                            <div class="metric-value" id="metricSSIM">-</div>
+                            <div style="font-size: 0.8rem; color: var(--text-light); margin-top: 0.5rem;">
+                                (0-1, mai aproape de 1 = mai bun)
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">MSE</div>
+                            <div class="metric-value" id="metricMSE">-</div>
+                            <div style="font-size: 0.8rem; color: var(--text-light); margin-top: 0.5rem;">
+                                (mai mic = mai bun)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Toate metricile (tabel) -->
+            <div class="card" id="allMetricsSection" style="display: none;">
+                <h2>Comparație Toate Filtrele Testate</h2>
+                <div id="allMetricsTable"></div>
+            </div>
+        </div>
+
+        <!-- Erori -->
+        <div id="errorSection" class="hidden">
+            <div class="card">
+                <div class="alert alert-error">
+                    <h3 style="margin-top: 0;">Eroare</h3>
+                    <p id="errorMessage"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 | Aplicație Academică de Restaurare Imagini | Digital Image Processing</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

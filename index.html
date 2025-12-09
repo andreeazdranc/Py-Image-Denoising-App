@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurare Imagini - Aplicație Academică</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">Restaurare Imagini</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link active">Acasă</a></li>
+                <li><a href="importanta.html" class="nav-link">Importanță</a></li>
+                <li><a href="filtre.html" class="nav-link">Filtre</a></li>
+                <li><a href="zgomote.html" class="nav-link">Zgomote</a></li>
+                <li><a href="aplicatie.html" class="nav-link">Aplicație</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="page-header">
+            <h1>Aplicație de Restaurare Automată a Imaginilor</h1>
+            <p>Detecție automată a zgomotului și aplicare filtrare optimă</p>
+        </div>
+
+        <!-- Descriere proiect -->
+        <div class="card">
+            <h2>Despre Proiect</h2>
+            <p>
+                Această aplicație reprezintă o platformă academică avansată pentru restaurarea automată a imaginilor deteriorate. 
+                Utilizând algoritmi bazați pe literatura de specialitate (Gonzalez & Woods - Digital Image Processing), 
+                sistemul poate detecta automat tipul de zgomot aplicat pe o imagine și poate selecta filtrul optimal pentru restaurare.
+            </p>
+            <p>
+                Aplicația implementează <b>8 tipuri de zgomote</b> diferite și <b>12 filtre</b> de restaurare, 
+                utilizând metrici standardizate (PSNR, SSIM, MSE) pentru evaluarea calității restaurării.
+            </p>
+        </div>
+
+        <!-- Funcționalități -->
+        <div class="card">
+            <h2>Funcționalități Principale</h2>
+            <div class="grid-container">
+                <div class="card">
+                    <h3>🔍 Detecție Automată</h3>
+                    <p>
+                        Algoritmul analizează caracteristicile statistice ale zgomotului 
+                        (skewness, kurtosis, entropie) și identifică automat tipul de degradare aplicat.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>⚡ Procesare Rapidă</h3>
+                    <p>
+                        Backend optimizat în Python cu NumPy și SciPy pentru procesare eficientă 
+                        a imaginilor și aplicare în timp real a filtrelor.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>📊 Evaluare Metrici</h3>
+                    <p>
+                        Calcul automat al metricilor PSNR (Peak Signal-to-Noise Ratio), 
+                        SSIM (Structural Similarity Index) și MSE (Mean Squared Error).
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flux de lucru -->
+        <div class="card">
+            <h2>Flux de Lucru</h2>
+            <ol style="font-size: 1.1rem; line-height: 2;">
+                <li><b>Încărcare imagine:</b> Utilizatorul încarcă o imagine (PNG, JPG, BMP)</li>
+                <li><b>Selectare zgomot:</b> Se alege tipul de zgomot care va fi aplicat</li>
+                <li><b>Aplicare zgomot:</b> Sistemul aplică zgomotul pe imaginea originală</li>
+                <li><b>Detecție automată:</b> Algoritmul detectează tipul de zgomot aplicat</li>
+                <li><b>Selecție filtru:</b> Se alege automat filtrul optimal din lista de candidați</li>
+                <li><b>Restaurare:</b> Se aplică filtrul și se calculează metricile de calitate</li>
+                <li><b>Vizualizare:</b> Se afișează rezultatele comparative (original, zgomot, restaurat)</li>
+            </ol>
+        </div>
+
+        <!-- Zgomote suportate -->
+        <div class="card">
+            <h2>Zgomote Implementate</h2>
+            <div class="grid-container">
+                <div class="card">
+                    <h3>Gaussian</h3>
+                    <p>Zgomot cu distribuție normală, comun în senzori digitali</p>
+                </div>
+                <div class="card">
+                    <h3>Sare și Piper</h3>
+                    <p>Pixeli albi/negri aleatori, specific erorilor de transmisie</p>
+                </div>
+                <div class="card">
+                    <h3>Periodic</h3>
+                    <p>Interferențe sinusoidale, cauzate de surse electrice</p>
+                </div>
+                <div class="card">
+                    <h3>Rayleigh</h3>
+                    <p>Distribuție asimetrică, întâlnit în radar și sonar</p>
+                </div>
+                <div class="card">
+                    <h3>Uniform</h3>
+                    <p>Distribuție plată pe un interval specificat</p>
+                </div>
+                <div class="card">
+                    <h3>Exponențial</h3>
+                    <p>Specific proceselor de dezintegrare și absorbție</p>
+                </div>
+                <div class="card">
+                    <h3>Erlang (Gamma)</h3>
+                    <p>Suma de procese exponențiale, zgomot în blocuri</p>
+                </div>
+                <div class="card">
+                    <h3>Liniar Invariant</h3>
+                    <p>Blur (mișcare sau defocusare), degradare convoluțională</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtre -->
+        <div class="card">
+            <h2>Filtre de Restaurare</h2>
+            <p>
+                Aplicația include 12 filtre specializate, grupate pe categorii în funcție de tipul de zgomot:
+            </p>
+            <ul style="font-size: 1.1rem; line-height: 2;">
+                <li><b>Pentru zgomot gaussian:</b> Mean Filter, Wiener Filter</li>
+                <li><b>Pentru zgomot multiplicativ:</b> Geometric Mean, Harmonic Mean, Contra-harmonic Mean</li>
+                <li><b>Pentru zgomot impulsiv:</b> Median Filter, Adaptive Median Filter</li>
+                <li><b>Pentru zgomot periodic:</b> Notch Filter (Butterworth)</li>
+                <li><b>Pentru blur:</b> Inverse Filter, Wiener Filter, Richardson-Lucy</li>
+            </ul>
+        </div>
+
+        <!-- Call to action -->
+        <div class="card text-center">
+            <h2>Începe Restaurarea</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">
+                Încearcă aplicația acum și vezi cum funcționează detecția automată a zgomotului!
+            </p>
+            <a href="aplicatie.html" class="btn btn-primary" style="font-size: 1.2rem; padding: 1rem 2rem;">
+                Deschide Aplicația →
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 | Aplicație Academică de Restaurare Imagini | Digital Image Processing</p>
+    </footer>
+</body>
+</html>

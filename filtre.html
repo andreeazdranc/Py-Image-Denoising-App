@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caracteristici Filtre - Restaurarea Imaginilor</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">Restaurare Imagini</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Acasă</a></li>
+                <li><a href="importanta.html" class="nav-link">Importanță</a></li>
+                <li><a href="filtre.html" class="nav-link active">Filtre</a></li>
+                <li><a href="zgomote.html" class="nav-link">Zgomote</a></li>
+                <li><a href="aplicatie.html" class="nav-link">Aplicație</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="page-header">
+            <h1>Caracteristici Detaliate – Filtre în Restaurarea Imaginilor</h1>
+            <p>Descrieri tehnice și aplicații practice</p>
+        </div>
+
+        <!-- Filtre (conținut preluat din filtre.html existent) -->
+        
+        <div class="card">
+            <h2>Filtru Mean (Medie aritmetică)</h2>
+            <p>
+                <b>Definiție și formulă:</b> Filtrul mean calculează media aritmetică a pixelilor din vecinătatea fiecărui punct 
+                (de exemplu o matrice 3x3 sau 5x5). Noua valoare a pixelului este f'(i,j) = 1/N Σ<sub>k,l</sub> f(i+k,j+l), 
+                unde N este numărul total de pixeli din fereastră.<br>
+                <b>Efect vizual:</b> Reduce zgomotul de intensitate joasă (gaussian, uniform), face imaginea mai netedă și 
+                estompează trecerile bruște. Aplicarea repetată poate produce pierderi majore de detaliu.<br>
+                <b>Utilizări:</b> Pre-tratarea imaginilor medicale, eliminarea zgomotului uniform din imagini satelitare, 
+                imagini cu iluminare slabă.<br>
+                <b>Limite:</b> Nu elimină zgomotul impulsiv și blur-ează muchiile. Nu face diferența între zgomot și detalii mici.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Median</h2>
+            <p>
+                <b>Definiție:</b> Înlocuiește fiecare pixel cu valoarea mediană a vecinilor săi, adică mijlocul valorilor 
+                ordonate din fereastră.<br>
+                <b>Efect principal:</b> Înlătură excelent zgomotul impulsiv (sare și piper), menține foarte bine marginile și 
+                reduce artefactele de tip „outlier".<br>
+                <b>Aplicații:</b> Restaurarea fotografiilor vechi, eliminarea zgârieturilor, corectarea erorilor de transmisie digitală.<br>
+                <b>Matematic:</b> Mediană(x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>)<br>
+                <b>Limite:</b> Poate introduce efecte de tip "pată" pe zone cu gradient și nu netezește zgomotul gaussian 
+                la fel de bine ca mean.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Adaptive Median</h2>
+            <p>
+                <b>Definiție:</b> Adaptiv pentru zone cu densitate mare a zgomotului impulsiv – crește automat dimensiunea 
+                ferestrei până la o limită dată pentru a găsi o mediană stabilă.<br>
+                <b>Efect:</b> Elimina zgomot intens acolo unde medianul simplu ar păstra încă pixeli afectați și evită blurarea 
+                detaliilor unde nu e nevoie de restaurare agresivă.<br>
+                <b>Practic:</b> Folosit în imagini de microscopie sau documente scanate cu zgomot neuniform.<br>
+                <b>Dezavantaje:</b> Cost computațional ridicat (kernel adaptiv), poate omite detalii foarte fine.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Geometric Mean</h2>
+            <p>
+                <b>Principiu:</b> Pixelul este înlocuit cu media geometrică a valorilor din fereastră:<br>
+                f' = (Π<sub>k,l</sub>f(i+k,j+l))<sup>1/N</sup>, unde N este numărul de valori din kernel.<br>
+                <b>Eficiență:</b> Foarte folosit pentru reducerea efectului zgomotului multiplicativ, dar nu pentru zgomot impulsiv.<br>
+                <b>Observații:</b> Păstrează detalii, dar dacă un pixel are valoarea zero, rezultatul devine zero 
+                (sensibil la pixeli „black").
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Harmonic Mean</h2>
+            <p>
+                <b>Principiu:</b> Inversează pixelii din fereastră, calculează media lor, apoi inversează rezultatul: 
+                f' = N / (Σ<sub>k,l</sub> 1/f(i+k,j+l)).<br>
+                <b>Efect:</b> Extrem de bun pentru atenuarea zgomotului sare (vârfuri mari de intensitate), foarte slab 
+                pentru zgomot de piper (zero-uri), pentru că media armonică nu poate elimina valori zero.<br>
+                <b>Utilizări:</b> Restaurare imagini radar sau cu reflexii.<br>
+                <b>Dezavantaje:</b> Poate accentua zonele întunecate.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Contra-harmonic Mean</h2>
+            <p>
+                <b>Definiție:</b> Generalizează geometricul și armonicul cu ajutorul unui parametru Q:<br>
+                f' = Σ f<sup>Q+1</sup> / Σ f<sup>Q</sup>.<br>
+                <b>Q&gt;0</b>: reduce zgomotul sare; <b>Q&lt;0</b>: reduce zgomotul piper.<br>
+                <b>Flexibilitate:</b> Reglajul lui Q permite adaptarea la tipul și distribuția zgomotului.<br>
+                <b>Observații:</b> Necesită atenție la alegerea Q, altfel imaginea poate fi supracorectată.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Midpoint</h2>
+            <p>
+                <b>Principiu:</b> Înlocuiește pixelul central cu media dintre valorile minimă și maximă din fereastră: (max + min)/2.<br>
+                <b>Efect:</b> Neutralizează vârfuri bruște cauzate de zgomot uniform, atenuează fluctuațiile agresive.<br>
+                <b>Utilitate:</b> Folosit ca pas inițial în pipeline-uri de restaurare înaintea unui filtru statistic mai strict.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Min-Max</h2>
+            <p>
+                <b>Definiție:</b> Două filtre separate, care aleg fie minimul, fie maximul din fereastră. 
+                <b>Min</b>: elimină vârfuri mari (sare). <b>Max</b>: elimină valori zero (piper).<br>
+                <b>Practic:</b> Ajută la restaurarea zonelor afectate de zgomot impulsiv combinat, dar produce pierdere 
+                de detaliu dacă este folosit excesiv.<br>
+                <b>Observație:</b> Util ca pre-procesare înainte de aplicarea medianului.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Notch Filter</h2>
+            <p>
+                <b>Principiu:</b> Aplicat în domeniul frecvenței (după transformata Fourier), elimină componentele cu frecvență 
+                fixă (paraziți periodici). În spectrul imaginilor, creează „găuri" la coordonatele frecvenței zgomotoase.<br>
+                <b>Utilizare:</b> Eliminare dungi, benzi, artefacte mecanice sau paraziți EM.<br>
+                <b>Limită:</b> Este necesară identificarea exactă a pozițiilor pentru a nu elimina și detaliu real.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Wiener Filter</h2>
+            <p>
+                <b>Definiție:</b> Un filtru optim, statistico-probabilistic, care minimizează eroarea medie pătratică 
+                între imaginea restaurată și cea reală.<br>
+                <b>Formula:</b> F(u,v) = H*(u,v) / (|H(u,v)|² + S<sub>n</sub>(u,v)/S<sub>f</sub>(u,v)) * G(u,v), 
+                unde H = funcția de transfer, S<sub>n</sub>, S<sub>f</sub> sunt spectrul zgomot și al scenei.<br>
+                <b>Efect:</b> Recuperează detalii fine, păstrează claritatea acolo unde kernelul și zgomotul pot fi estimate.<br>
+                <b>Observații:</b> Excelent pentru imagini medicale, blur de mișcare cunoscut, dar sensibil la necunoașterea modelului.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Inverse Filter</h2>
+            <p>
+                <b>Principiu:</b> Restaurează imaginea aplicând inversul funcției de degradare (kernel/convoluție). 
+                Extrem de sensibil la zgomot și la erori de estimare.<br>
+                <b>Matematic:</b> F(u,v) = G(u,v)/H(u,v).<br>
+                <b>Utilizează:</b> doar când funcția de transfer este cunoscută și zgomotul este foarte slab.<br>
+                <b>În practică:</b> Este folosit ca pas inițial, urmat de regularizări ca Wiener pentru a evita 
+                amplificarea zgomotului.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Richardson-Lucy</h2>
+            <p>
+                <b>Principiu:</b> Algoritm iterativ de deconvoluție bazat pe maximum likelihood, foarte eficient 
+                pentru restaurarea imaginilor afectate de blur.<br>
+                <b>Avantaje:</b> Nu amplică zgomotul la fel de agresiv ca inverse filter, converge către o soluție 
+                probabilistică optimă.<br>
+                <b>Aplicații:</b> Astronomie, microscopie, orice aplicație unde PSF-ul este aproximativ cunoscut.<br>
+                <b>Observații:</b> Necesită mai multe iterații (computational expensive), dar rezultatele sunt superioare.
+            </p>
+        </div>
+
+        <!-- Comparație -->
+        <div class="card">
+            <h2>Ghid de Selecție a Filtrelor</h2>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                <thead>
+                    <tr style="background: var(--bg-light);">
+                        <th style="padding: 0.75rem; text-align: left; border: 1px solid var(--border-color);">Tip Zgomot</th>
+                        <th style="padding: 0.75rem; text-align: left; border: 1px solid var(--border-color);">Filtre Recomandate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);"><b>Gaussian</b></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Mean Filter, Wiener Filter</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);"><b>Sare și Piper</b></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Median Filter, Adaptive Median</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);"><b>Periodic</b></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Notch Filter</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);"><b>Rayleigh/Erlang/Exponențial</b></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Geometric Mean, Harmonic Mean</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);"><b>Blur (Motion/Gaussian)</b></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Inverse Filter, Wiener Filter, Richardson-Lucy</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 | Aplicație Academică de Restaurare Imagini | Digital Image Processing</p>
+    </footer>
+</body>
+</html>

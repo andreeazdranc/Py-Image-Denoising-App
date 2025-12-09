@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caracteristici Zgomote - Restaurarea Imaginilor</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">Restaurare Imagini</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Acasă</a></li>
+                <li><a href="importanta.html" class="nav-link">Importanță</a></li>
+                <li><a href="filtre.html" class="nav-link">Filtre</a></li>
+                <li><a href="zgomote.html" class="nav-link active">Zgomote</a></li>
+                <li><a href="aplicatie.html" class="nav-link">Aplicație</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="page-header">
+            <h1>Caracteristici Detaliate – Zgomote în Imagini Digitale</h1>
+            <p>Tipuri, cauze și metode de identificare</p>
+        </div>
+
+        <!-- Zgomote (conținut preluat din zgomote.html existent) -->
+
+        <div class="card">
+            <h2>Zgomot Gaussian</h2>
+            <p>
+                Zgomotul gaussian este modelat matematic de o distribuție normală a pixelilor, centrata pe valoarea zero 
+                și descrisă prin deviația standard σ.<br>
+                Este aproape universal prezent în camere, scanere și aparate medicale (MR, CT). Apare din cauza mișcării 
+                electronilor în circuite sau din agitația termică a senzorului.<br>
+                <b>Simptome vizuale:</b> apariția unor fluctuații fine de luminozitate în toată imaginea;<br>
+                <b>Proprietăți:</b> histogramă simetrică („bell-shape") <br>
+                <b>Interval tipic:</b> σ = 5…50 pentru imagini de 8 biți<br>
+                <b>Model:</b> p(z) = (1/(σ√(2π))) exp(-(z - μ)²/(2σ²)), unde μ este media (de obicei zero).<br>
+                <b>Reconoscibilitate:</b> zgomot prezent în toate regiunile, greu de eliminat fără filtru adaptiv (Wiener).
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Zgomot Periodic</h2>
+            <p>
+                Este produs de interferențe periodice externe (rețea electrică, transmisii radio, vibrații mecanice). 
+                Afectează imaginea sub forma unor benzi, dungi sau moiré cu orientare și intensitate fixă.<br>
+                <b>Simptome vizuale:</b> apar dungi regulate orizontale/verticale/oblice;<br>
+                <b>Model:</b> f(x, y) = A sin(2π u₀ x + φ), unde A este amplitudinea, u₀ frecvența.<br>
+                <b>Interval tipic:</b> amplitudinea A = 10…60; u₀ ales după modelul fizic.<br>
+                <b>Recunoaștere:</b> în FFT apar vârfuri clare pentru frecvențele zgomotoase; vizibil cu ochiul liber.<br>
+                <b>Eliminare:</b> filtrare în domeniu frecvență folosind filtre Notch.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Zgomot Rayleigh</h2>
+            <p>
+                Acest zgomot are o distribuție asimetrică, întâlnit frecvent la radar, imagini sonar sau în imagistica 
+                medicală în câmp slab iluminat.<br>
+                <b>Model:</b> p(z) = (z/σ²) exp(-z²/(2σ²)) pentru z ≥ 0<br>
+                <b>Proprietăți:</b> afectează mai mult zonele luminoase;<br>
+                <b>Interval tipic σ:</b> 10–40<br>
+                <b>Recunoaștere:</b> histogramă „trasă la dreapta", fără simetrie;<br>
+                <b>Simptome vizuale:</b> zonele cu reflexie ridicată (alb-negru, soft) au variații bruște de nuanță.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Zgomot Exponential</h2>
+            <p>
+                Se găsește în sisteme cu procese de dezintegrare sau transmisie către un mediu absorbanți.<br>
+                <b>Model:</b> p(z) = λ exp(-λz), z ≥ 0<br>
+                <b>Parametru:</b> λ = 0.02…0.2 (cu cât λ mai mare, zgomotul e mai "dens")<br>
+                <b>Manifestare:</b> pixelii primesc fluctuații bruște doar către valori mai mari;<br>
+                <b>Recunoaștere:</b> histogramă alungită spre valori mari, aspect de „coadă";<br>
+                <b>Utilizare:</b> simulare fenomene reale pentru testarea algoritmilor.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Zgomot Erlang (Gamma)</h2>
+            <p>
+                Zgomotul Erlang este o sumă de zgomote exponențiale (n procese rare care apar simultan).
+                <b>Model:</b> p(z) = (a^b z^{b-1} e^{-a z}) / (b-1)!, cu a, b pozitivi<br>
+                <b>Parametri:</b> a ∈ [0.01…0.20]; b ∈ [2…7]<br>
+                <b>Manifestare:</b> zgomot pe blocuri largi, nu la nivel de pixel;<br>
+                <b>Simptome vizuale:</b> degradeuri netede alternate cu salturi nenaturale;<br>
+                <b>Recunoaștere:</b> histogramă cu două sau mai multe vârfuri (față de gaussian, care are unul singur).
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Zgomot Sare și Piper (Salt & Pepper)</h2>
+            <p>
+                Afectează pixelii individuali, care devin brusc complet albi (255) sau negri (0). Apariția este aleatorie, 
+                dar vizibilă imediat în regiunile uniforme.<br>
+                <b>Procent tipic:</b> 1…15% din total pixeli<br>
+                <b>Simptome:</b> puncte dispersate izolat, nu forme sau blocuri;<br>
+                <b>Cauză:</b> erori de transmisie digitală (rețea zgomotoasă, citire defectuoasă), zgârieturi pe film, 
+                scanare documente;<br>
+                <b>Recunoaștere:</b> histogramă cu spike la 0 și 255, restul relativ stabil;<br>
+                <b>Eliminare:</b> filtrare mediană (clasic și adaptiv).
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Zgomot Liniar, invariant la poziție</h2>
+            <p>
+                Apare la mișcarea camerei sau la defocusare. Toată imaginea este „blurred" cu aceeași kernel. <br>
+                <b>Model matematic:</b> convoluție cu funcție de răspuns la impuls (PSF)<br>
+                <b>Kernel tipic:</b> 5x5, 9x9, 15x15<br>
+                <b>Simptome:</b> marginile și detaliile fine devin difuze, contururile nu mai sunt clare.<br>
+                <b>Recunoaștere:</b> histogramă mai puțin accentuată la marginile extremelor; nu are pixeli extremi 
+                (ca zgomotul „impuls").
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Zgomot Uniform</h2>
+            <p>
+                Fiecare pixel are aceeași șansă de a fi modificat cu o valoare aleatoare, de obicei între -a și +a 
+                (unde a este mic/de obicei 10–40).<br>
+                <b>Model:</b> p(z) = 1/(2a+1), pentru z între -a și a<br>
+                <b>Simptome:</b> zgomot vizual aleator pe toată imaginea, nu există pattern-uri, ci doar fluctuații 
+                ușoare „granulate".<br>
+                <b>Recunoaștere:</b> histogramă plată pe intervalul [-a, a], intensități egale peste tot;<br>
+                <b>Utilizare:</b> ideal pentru testare robustete algoritmi.
+            </p>
+        </div>
+
+        <!-- Comparație și criterii de detecție -->
+        <div class="card">
+            <h2>Criterii de Detecție Automată</h2>
+            <p>
+                Aplicația utilizează următoarele criterii statistice pentru detectarea automată a zgomotului 
+                (conform Gonzalez & Woods):
+            </p>
+
+            <h3>Skewness (Asimetrie)</h3>
+            <p>
+                Măsoară asimetria distribuției față de medie. 
+                <ul>
+                    <li><b>Skewness ≈ 0:</b> Distribuție simetrică (Gaussian, Uniform)</li>
+                    <li><b>Skewness > 0:</b> Distribuție înclinată la dreapta (Rayleigh, Exponențial, Erlang)</li>
+                    <li><b>Skewness > 1.2:</b> Asimetrie puternică (Exponențial, Erlang)</li>
+                </ul>
+            </p>
+
+            <h3>Kurtosis (Aplatizare)</h3>
+            <p>
+                Măsoară "ascuțimea" distribuției și prezența valorilor extreme.
+                <ul>
+                    <li><b>Kurtosis ≈ 3:</b> Distribuție normală (Gaussian)</li>
+                    <li><b>Kurtosis &lt; 3:</b> Distribuție aplatizată (Uniform, Rayleigh)</li>
+                    <li><b>Kurtosis &gt; 10:</b> Blur/degradare spațială (Liniar Invariant)</li>
+                    <li><b>Kurtosis 4-7:</b> Distribuții complexe (Erlang, Exponențial)</li>
+                </ul>
+            </p>
+
+            <h3>Analiza FFT (pentru Periodic)</h3>
+            <p>
+                Zgomotul periodic se detectează prin analiza transformatei Fourier:
+                <ul>
+                    <li>Apar vârfuri clare la frecvențe specifice</li>
+                    <li>Concentrarea energiei în puține puncte (&gt;25% în top 20 vârfuri)</li>
+                    <li>Simetrie față de centrul spectrului</li>
+                </ul>
+            </p>
+
+            <h3>Analiza Pixelilor Extremi (pentru Sare & Piper)</h3>
+            <p>
+                Detectare bazată pe procentul de pixeli albi (255) și negri (0):
+                <ul>
+                    <li>Prezența simultană a ambelor extreme</li>
+                    <li>Procent total &gt; 28% cu minimum 1% pentru fiecare</li>
+                    <li>Distribuție aleatoare (nu clustering)</li>
+                </ul>
+            </p>
+
+            <h3>Entropie (pentru Uniform)</h3>
+            <p>
+                Zgomotul uniform are histogramă plată, deci entropie maximă:
+                <ul>
+                    <li>Entropie &gt; 6.5 bits (din maxim teoretic 8 pentru 256 nivele)</li>
+                    <li>Distribuție aproape uniformă pe toate nivelurile</li>
+                </ul>
+            </p>
+        </div>
+
+        <!-- Tabel comparativ -->
+        <div class="card">
+            <h2>Tabel Comparativ Zgomote</h2>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9rem;">
+                <thead>
+                    <tr style="background: var(--bg-light);">
+                        <th style="padding: 0.75rem; border: 1px solid var(--border-color);">Zgomot</th>
+                        <th style="padding: 0.75rem; border: 1px solid var(--border-color);">Cauză Tipică</th>
+                        <th style="padding: 0.75rem; border: 1px solid var(--border-color);">Criteriu Identificare</th>
+                        <th style="padding: 0.75rem; border: 1px solid var(--border-color);">Filtru Recomandat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);"><b>Gaussian</b></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Zgomot termic senzor</td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Skew≈0, Kurt≈3</td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Mean, Wiener</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);"><b>Sare & Piper</b></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Erori transmisie</td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Pixeli 0 și 255</td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Median, Adaptive Median</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);"><b>Periodic</b></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Interferențe electrice</td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Vârfuri FFT</td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Notch Filter</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);"><b>Rayleigh</b></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Radar, sonar</td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Skew 0.3-1.5</td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Geometric Mean</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);"><b>Exponențial</b></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Procese de dezintegrare</td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Skew>1.2, Kurt 4.8-6.8</td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Harmonic Mean</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);"><b>Erlang</b></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Procese compuse</td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Skew>1, Kurt 4.5-6</td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Geometric Mean</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);"><b>Uniform</b></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Testare, simulare</td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Entropie>6.5</td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Mean Filter</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);"><b>Liniar Invariant</b></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Motion blur, defocus</td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Kurt>10</td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Wiener, Inverse</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 | Aplicație Academică de Restaurare Imagini | Digital Image Processing</p>
+    </footer>
+</body>
+</html>
