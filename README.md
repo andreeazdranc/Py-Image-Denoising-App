@@ -30,14 +30,18 @@ git clone https://github.com/andreeazdranc/Py-Image-Denoising-App.git
 cd Py-Image-Denoising-App
 ```
 
-2. Install required dependencies:
+2. Install required dependencies (when available):
 ```bash
 pip install -r requirements.txt
 ```
 
+> **Note**: This project is currently in development. Dependencies and installation steps will be updated as the project evolves.
+
 ## Usage
 
-### Basic Usage
+> **Note**: This project is currently in development. The usage examples below represent the intended API design.
+
+### Basic Usage (Planned)
 
 ```python
 # Import the denoising module
@@ -53,7 +57,7 @@ denoised_image = denoiser.denoise('path/to/noisy/image.jpg')
 denoised_image.save('path/to/output/image.jpg')
 ```
 
-### Command Line Interface
+### Command Line Interface (Planned)
 
 ```bash
 python denoise.py --input input_image.jpg --output output_image.jpg --method gaussian
@@ -69,6 +73,13 @@ python denoise.py --input input_image.jpg --output output_image.jpg --method gau
 
 ## Project Structure
 
+Current structure:
+```
+Py-Image-Denoising-App/
+└── README.md
+```
+
+Planned structure:
 ```
 Py-Image-Denoising-App/
 ├── README.md
@@ -92,7 +103,7 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is open source. License details will be added soon.
 
 ## Author
 
